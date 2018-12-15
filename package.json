@@ -10,14 +10,11 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@babel/polyfill": "^7.0.0",
     "dotenv": "^6.2.0",
     "express": "^4.16.4",
     "lyft-client": "^1.0.1",
-    "lyft-node": "0.0.5",
     "mysql": "^2.16.0",
     "node-geocoder": "^3.22.0",
-    "node-uber": "^2.0.0",
-    "url": "^0.11.0"
+    "node-uber": "^2.0.0"
   }
 }
