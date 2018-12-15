@@ -14,7 +14,6 @@
   <body>
     <input id="from" type="text" /> <input id="to" type="text" />
     <button id="submit">Click Me</button>
- Jayyyyyy
     <p id="lyftPrice"></p>
     <p id="uberPrice"></p>
     <p id="address"></p>
@@ -47,7 +46,8 @@
 
       $.post("/address", function(data) {
         for (var add in data.address) {
-          $("#address").text(data.address[add].Location);
+          $("#address").append(`Location: ${data.address[add].Location} <br>`);
+          $("#address").append(`Destination: ${data.address[add].Destination}`);
         }
     });
   });
