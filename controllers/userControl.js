@@ -3,13 +3,19 @@ var user = require("../model/user");
 var uber = require("../dashboard/uber");
 var lyft = require("../dashboard/lyft");
 var geocoder = require("../dashboard/geocode");
+var path = require("path");
 
 module.exports = function(app) {
-  app.get("/price", function(req, res, next) {
-    var trip = [];
+  app.get("/", function(req, res) {
+    res.sendFile(path.join(__dirname, "../public/index.html"));
+  })
   
-    var address1 = "2503 Fleming Drive, South Carolina"; /*req.body.from;*/
-    var address2 = "1210 Bolt Drive, South Carolina"; /* req.body.to;*/
+  app.post("/price", function(req, res) {
+    var trip = [];
+    var route = [];
+  
+    var address1 = req.body.from;
+    var address2 = req.body.to;
     geocoder.geocode(address1, function(err, res) {
       console.log("geocode");
       trip.push({ lat: res[0].latitude, long: res[0].longitude });
@@ -25,8 +31,9 @@ module.exports = function(app) {
       uber.estimates
         .getPriceForRouteAsync(slat, slong, elat, elong) 
         .then(function(response) {
-          res.json(response);
-          console.log(response);
+          console.log(response.prices[0].estimate);
+          route.push({uber: response.prices[0].estimate})
+          res.json(route[0])
         })
         .error(function(err) {
           console.error(err);
@@ -46,8 +53,8 @@ module.exports = function(app) {
         },
         rideType: "lyft"
       };
-      lyft.getRideEstimates(regularlyft).then(response => {
-        console.log(response);
+      lyft.getRideEstimates(regularlyft).then(res => {
+        console.log(res)
       });
     }
   });
@@ -58,7 +65,6 @@ module.exports = function(app) {
         user: data
       };
       console.log(hbsObject);
-      // res.render("login", hbsObject);
     });
   });
 
