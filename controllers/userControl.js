@@ -12,8 +12,7 @@ module.exports = function(app) {
   
   app.post("/price", function(req, res) {
     var trip = [];
-    var route = [];
-  
+ 
     var address1 = req.body.from;
     var address2 = req.body.to;
     geocoder.geocode(address1, function(err, res) {
@@ -28,6 +27,7 @@ module.exports = function(app) {
     });
   
     function ubest(slat, slong, elat, elong) {
+      var route = [];
       uber.estimates
         .getPriceForRouteAsync(slat, slong, elat, elong) 
         .then(function(response) {
@@ -42,6 +42,7 @@ module.exports = function(app) {
     }
   
     function lfest(slat, slong, elat, elong) {
+      var route = [];
       var regularlyft = {
         start: {
           latitude: slat,
@@ -53,8 +54,11 @@ module.exports = function(app) {
         },
         rideType: "lyft"
       };
-      lyft.getRideEstimates(regularlyft).then(res => {
-        console.log(res)
+      lyft.getRideEstimates(regularlyft).then(resp => {
+        console.log(resp[0].estimatedCostCentsMin)
+        console.log(resp[0].estimatedCostCentsMax)
+        route.push({lyft: `${resp[0].estimatedCostCentsMin}-${resp[0].estimatedCostCentsMax}`})
+        res.json(route[0])
       });
     }
   });
