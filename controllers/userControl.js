@@ -6,23 +6,34 @@ var geocoder = require("../dashboard/geocode");
 var path = require("path");
 
 module.exports = function(app) {
+
+  // going to be login page
   app.get("/", function(req, res) {
-    res.sendFile(path.join(__dirname, "../public/index.html"));
+      res.sendFile(path.join(__dirname, "../public/index.html"));
   })
-  
+
+  // kicks out of server if input filles are empty. Make it reload instead of kicking out
   app.post("/price", function(req, res) {
     var trip = [];
  
     var address1 = req.body.from;
     var address2 = req.body.to;
     geocoder.geocode(address1, function(err, res) {
+      try {
       console.log("geocode");
       trip.push({ lat: res[0].latitude, long: res[0].longitude });
+      } catch(err) {
+        console.log(err)
+      }
       geocoder.geocode(address2, function(err, res) {
+        try {
         trip.push({ lat: res[0].latitude, long: res[0].longitude });
         console.log(trip);
         ubest(trip[0].lat, trip[0].long, trip[1].lat, trip[1].long);
         lfest(trip[0].lat, trip[0].long, trip[1].lat, trip[1].long);
+        } catch (err) {
+          console.log(err)
+        }
       });
     });
   
@@ -37,7 +48,7 @@ module.exports = function(app) {
         })
         .error(function(err) {
           console.error(err);
-          res.sendStatus(500);
+          // res.sendStatus(500);
         });
     }
   
@@ -54,23 +65,37 @@ module.exports = function(app) {
         },
         rideType: "lyft"
       };
-      lyft.getRideEstimates(regularlyft).then(resp => {
-        console.log(resp[0].estimatedCostCentsMin)
-        console.log(resp[0].estimatedCostCentsMax)
-        route.push({lyft: `${resp[0].estimatedCostCentsMin}-${resp[0].estimatedCostCentsMax}`})
-        res.json(route[0])
+      lyft.getRideEstimates(regularlyft).then(respo => {
+        try { console.log(respo[0].estimatedCostCentsMin)
+        console.log(respo[0].estimatedCostCentsMax)
+        route.push({lyft: `${respo[0].estimatedCostCentsMin}-${respo[0].estimatedCostCentsMax}`})
+        // res.json(route[0])
+        } catch (err) {
+           console.error(err);
+          // res.sendStatus(500)
+        }
       });
     }
   });
   
-  app.get("/:user", function(req, res) {
+  // app.post("/address", function(req, res) {
+  //   user.all(function(data) {
+  //     var hbsObject = {
+  //       user: data
+  //     };
+  //     console.log(hbsObject);
+  //   });
+  // });
+
+  app.post("/address", function(req, res) {
     user.all(function(data) {
       var hbsObject = {
-        user: data
+        address: data
       };
       console.log(hbsObject);
+      res.json(hbsObject)
     });
-  });
+  })
 
   app.post("/api/useraddress", function(req, res) {
     user.create(["wish"], [req.body.address], function(result) {

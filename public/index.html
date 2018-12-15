@@ -13,16 +13,19 @@
   </head>
   <body>
     <input id="from" type="text" /> <input id="to" type="text" />
-    <button id="submit"></button>
-
+    <button id="submit">Click Me</button>
+ Jayyyyyy
     <p id="lyftPrice"></p>
     <p id="uberPrice"></p>
-  </body>
+    <p id="address"></p>
+    <button id="add">Previously Searched Address</button>
   <script>
     // going to need 2 ajax calls.  One to get the price on the routes.
     // Then another that will save the routes in sql
 
-    $("#submit").on("click", function() {
+    $("#submit").on("click", function(e) {
+      e.preventDefault();
+
       var route = {
         from: $("#from")
           .val()
@@ -33,11 +36,20 @@
       };
 
       $.post("/price", route, function(data) {
-
-        // $("#lyftPrice").text(data.name);
         $("#uberPrice").text(data.uber);
         $("#lyftPrice").text(data.lyft);
       });
     });
+    
+
+    $("#add").on("click", function(e) {
+      e.preventDefault();
+
+      $.post("/address", function(data) {
+        for (var add in data.address) {
+          $("#address").text(data.address[add].Location);
+        }
+    });
+  });
   </script>
 </html>
