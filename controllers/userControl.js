@@ -48,7 +48,7 @@ module.exports = function(app) {
         })
         .error(function(err) {
           console.error(err);
-          // res.sendStatus(500);
+          res.sendStatus(500);
         });
     }
   
@@ -69,7 +69,8 @@ module.exports = function(app) {
         try { console.log(respo[0].estimatedCostCentsMin)
         console.log(respo[0].estimatedCostCentsMax)
         route.push({lyft: `${respo[0].estimatedCostCentsMin}-${respo[0].estimatedCostCentsMax}`})
-        // res.json(route[0])
+        res.json(route[0])
+        res.end(respo);
         } catch (err) {
            console.error(err);
           // res.sendStatus(500)
@@ -78,15 +79,6 @@ module.exports = function(app) {
     }
   });
   
-  // app.post("/address", function(req, res) {
-  //   user.all(function(data) {
-  //     var hbsObject = {
-  //       user: data
-  //     };
-  //     console.log(hbsObject);
-  //   });
-  // });
-
   app.post("/address", function(req, res) {
     user.all(function(data) {
       var hbsObject = {
@@ -98,9 +90,9 @@ module.exports = function(app) {
   })
 
   app.post("/api/useraddress", function(req, res) {
-    user.create(["wish"], [req.body.address], function(result) {
+    user.create(["Location", "Destination"], [req.body.location, req.body.destination], function(result) {
       // Send back the ID of the new quote
-      res.json({ id: result.insertId });
+      console.log(result)
     });
   });
 

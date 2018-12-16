@@ -18,12 +18,16 @@
     <p id="uberPrice"></p>
     <p id="address"></p>
     <button id="add">Previously Searched Address</button>
+    <button id="save">Save Address</button>
   <script>
     // going to need 2 ajax calls.  One to get the price on the routes.
     // Then another that will save the routes in sql
 
     $("#submit").on("click", function(e) {
       e.preventDefault();
+
+      $("#uberPrice").empty();
+        $("#lyftPrice").empty();
 
       var route = {
         from: $("#from")
@@ -46,10 +50,28 @@
 
       $.post("/address", function(data) {
         for (var add in data.address) {
-          $("#address").append(`Location: ${data.address[add].Location} <br>`);
-          $("#address").append(`Destination: ${data.address[add].Destination}`);
+          $("#address").append(`Location: ${data.address[add].Location} --  Destination: ${data.address[add].Destination} <br>`);
         }
     });
   });
+
+  $("#save").on("click", function(e) {
+      e.preventDefault();
+
+      var route = {
+        location: $("#from")
+          .val()
+          .trim(),
+          destination: $("#to")
+          .val()
+          .trim()
+      };
+
+      $.post("/api/useraddress", route, function(data) {
+        
+        console.log('In sql')
+      });
+    });
+
   </script>
 </html>
