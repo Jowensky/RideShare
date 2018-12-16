@@ -70,6 +70,7 @@ module.exports = function(app) {
         console.log(respo[0].estimatedCostCentsMax)
         route.push({lyft: `${respo[0].estimatedCostCentsMin}-${respo[0].estimatedCostCentsMax}`})
         res.json(route[0])
+        // move 2 decimal place ?? Math.Pow() ?? 
         res.end(respo);
         } catch (err) {
            console.error(err);
