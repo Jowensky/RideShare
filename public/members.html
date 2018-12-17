@@ -41,8 +41,10 @@
       };
 
       $.post("/api/price", route, function(data) {
-        $("#uberPrice").text(data.uber);
-        $("#lyftPrice").text(data.lyft);
+
+        console.log('got it')
+        $("#uberPrice").text(data[0]);
+        $("#lyftPrice").text(data[1]);
       });
     });
     

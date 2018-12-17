@@ -77,30 +77,25 @@ module.exports = function (app) {
       } catch (err) {
         console.log(err);
       }
-      geocoder.geocode(address2, async function(err, res) {
+      geocoder.geocode(address2, function(err, res) {
         try {
           trip.push({ lat: res[0].latitude, long: res[0].longitude });
-          //console.log(trip);
-          var uberEst = ubest(trip[0].lat, trip[0].long, trip[1].lat, trip[1].long);
-          var lyftEst = lfest(trip[0].lat, trip[0].long, trip[1].lat, trip[1].long);
-          console.log(uberEst);
-          console.log(lyftEst);
-          route.push(uberEst);
-          route.push(lyftEst);
-          console.log(route);
-          await res.json(route);
+          console.log(trip);
+
+          ubest(trip[0].lat, trip[0].long, trip[1].lat, trip[1].long);
         } catch (err) {
           console.log(err);
         }
       });
     });
 
-    async function ubest(slat, slong, elat, elong) {
-      await uber.estimates
+      function ubest(slat, slong, elat, elong) {
+       uber.estimates
         .getPriceForRouteAsync(slat, slong, elat, elong)
-        .then(function(response) {
-          console.log(response.prices[0].estimate);
-          return { uber: response.prices[0].estimate };
+        .then( async function(response) {
+          console.log(`Uber: ${response.prices[0].estimate}`);
+          await route.push(response.prices[0].estimate);
+          lfest(trip[0].lat, trip[0].long, trip[1].lat, trip[1].long);
         })
         .error(function(err) {
           console.error(err);
@@ -108,7 +103,7 @@ module.exports = function (app) {
         });
     }
 
-    async function lfest(slat, slong, elat, elong) {
+      function lfest(slat, slong, elat, elong) {
        var regularlyft = {
         start: {
           latitude: slat,
@@ -120,11 +115,12 @@ module.exports = function (app) {
         },
         rideType: "lyft"
       };
-     await lyft.getRideEstimates(regularlyft).then(respo => {
+      lyft.getRideEstimates(regularlyft).then(async respo => {
         try {
-          console.log(respo[0].estimatedCostCentsMin);
-          console.log(respo[0].estimatedCostCentsMax);
-          return {lyft: `$${move_decimal(respo[0].estimatedCostCentsMin,-2)}-${move_decimal(respo[0].estimatedCostCentsMax, -2)}`};
+          console.log(`Lyft: $${move_decimal(respo[0].estimatedCostCentsMin, -2)}-${move_decimal(respo[0].estimatedCostCentsMax, -2)}`);
+          await route.push(`$${move_decimal(respo[0].estimatedCostCentsMin,-2)}-${move_decimal(respo[0].estimatedCostCentsMax, -2)}`);
+          console.log(route);
+          res.send(route);
         } catch (err) {
           console.error(err);
           res.sendStatus(500);
