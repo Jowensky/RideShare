@@ -1,7 +1,6 @@
+CREATE DATABASE rideshare_db;
 
-CREATE DATABASE address_db;
-
-USE address_db;
+USE rideshare_db;
 
 CREATE TABLE addresses (
 	
@@ -10,3 +9,12 @@ CREATE TABLE addresses (
      Destination VARCHAR(100) NULL,
 	PRIMARY KEY (ID)
 );
+
+CREATE TABLE users (
+	
+     ID INTEGER(11) AUTO_INCREMENT NOT NULL,
+     username VARCHAR(100) NULL,
+     passwords VARCHAR(100) NULL,
+	PRIMARY KEY (ID)
+);
+

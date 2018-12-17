@@ -1,5 +1,5 @@
 
-var connection = require("../config/connection.js");
+var connection = require("./connection.js");
 
 function printQuestionMarks(num) {
   var arr = [];
@@ -55,15 +55,11 @@ var orm = {
       cb(result);
     });
   },
-  update: function(table, objColVals, condition, cb) {
-    var queryString = "UPDATE " + table;
-
-    queryString += " SET ";
-    queryString += objToSql(objColVals);
+  delete: function(table, condition, cb) {
+    var queryString = "DELETE FROM " + table;
     queryString += " WHERE ";
     queryString += condition;
 
-    console.log(queryString);
     connection.query(queryString, function(err, result) {
       if (err) {
         throw err;
@@ -71,6 +67,21 @@ var orm = {
 
       cb(result);
     });
+  },
+  selectWhere: function (tableInput, colToSearch, valOfCol, cb) {
+    var queryString = "SELECT * FROM ?? WHERE ?? = ?";
+    connection.query(queryString, [tableInput, colToSearch, valOfCol], function (err, result) {
+      if (err) throw err;
+      cb(err, result)
+    });
+  },
+  createUser: function (tableInput, cols_vals, cb) {
+    var queryString = "INSERT INTO ?? set ?";
+    connection.query(queryString, [tableInput, cols_vals], function (err, result) {
+      if (err) throw err;
+      cb(err, result)
+    });
+
   }
 };
 

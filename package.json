@@ -4,18 +4,26 @@
   "description": "",
   "main": "uber.js",
   "scripts": {
+    "server": "node server.js",
+    "start": "nodemon server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "bcrypt-nodejs": "0.0.3",
     "dotenv": "^6.2.0",
     "express": "^4.16.4",
+    "express-session": "^1.15.6",
     "lyft-client": "^1.0.1",
+    "move-decimal-point": "0.0.4",
     "mysql": "^2.16.0",
     "node-geocoder": "^3.22.0",
     "node-uber": "^2.0.0",
+    "nodemon": "^1.18.9",
+    "passport": "^0.4.0",
+    "passport-local": "^1.0.0",
     "path": "^0.12.7"
   }
 }

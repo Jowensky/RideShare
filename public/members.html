@@ -16,12 +16,14 @@
     <button id="submit">Click Me</button>
     <p id="lyftPrice"></p>
     <p id="uberPrice"></p>
-    <p id="address"></p>
+    <p>
+      <ul id="address">
+
+      </ul>
+    </p>
     <button id="add">Previously Searched Address</button>
     <button id="save">Save Address</button>
   <script>
-    // going to need 2 ajax calls.  One to get the price on the routes.
-    // Then another that will save the routes in sql
 
     $("#submit").on("click", function(e) {
       e.preventDefault();
@@ -38,7 +40,7 @@
           .trim()
       };
 
-      $.post("/price", route, function(data) {
+      $.post("/api/price", route, function(data) {
         $("#uberPrice").text(data.uber);
         $("#lyftPrice").text(data.lyft);
       });
@@ -50,12 +52,14 @@
 
       $.post("/address", function(data) {
         for (var add in data.address) {
-          $("#address").append(`Location: ${data.address[add].Location} --  Destination: ${data.address[add].Destination} <br>`);
+          var li = $("<button>")
+          li.attr("data-id",  data.address[add].ID).attr("id", "delete").append(`Location: ${data.address[add].Location} --  Destination: ${data.address[add].Destination} <br>`);
+          $("#address").append(li);
         }
+     });
     });
-  });
 
-  $("#save").on("click", function(e) {
+    $("#save").on("click", function(e) {
       e.preventDefault();
 
       var route = {
@@ -73,5 +77,22 @@
       });
     });
 
+
+    // $("#delete").on("click", function() {
+    //   console.log('clicked')
+
+    //   var id = $(this).da ta("id");
+      
+
+    //   $.ajax("/api/useraddress/" + id, {
+    //     type: "DELETE"
+    //   }).then(
+    //     function() {
+    //       console.log("deleted adress", id);
+        
+    //       location.reload();
+    //     }
+    //   );
+    // })
   </script>
 </html>
