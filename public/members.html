@@ -51,6 +51,8 @@
     $("#add").on("click", function(e) {
       e.preventDefault();
 
+      $("#address").empty()
+
       $.post("/address", function(data) {
         for (var add in data.address) {
           var li = $("<button>")
@@ -82,7 +84,7 @@
     // $("#delete").on("click", function() {
     //   console.log('clicked')
 
-    //   var id = $(this).da ta("id");
+    //   var id = $(this).data("id");
       
 
     //   $.ajax("/api/useraddress/" + id, {

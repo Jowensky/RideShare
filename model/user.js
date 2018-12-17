@@ -12,11 +12,11 @@ var rideshare = {
       cb(res);
     });
   },
-  delete: function(condition, cb) {
-    orm.delete("addresses", condition, function(res) {
-      cb(res);
-    });
-  },
+  // delete: function(condition, cb) {
+  //   orm.delete("addresses", condition, function(res) {
+  //     cb(res);
+  //   });
+  // },
   selectWhere: function (cols, vals, cb) {
     orm.selectWhere("users", cols, vals, function(err, rows){
       cb(err, rows)
