@@ -55,19 +55,19 @@ var orm = {
       cb(result);
     });
   },
-  // delete: function(table, condition, cb) {
-  //   var queryString = "DELETE FROM " + table;
-  //   queryString += " WHERE ";
-  //   queryString += condition;
+  delete: function(table, condition, cb) {
+    var queryString = "DELETE FROM " + table;
+    queryString += " WHERE ";
+    queryString += condition;
 
-  //   connection.query(queryString, function(err, result) {
-  //     if (err) {
-  //       throw err;
-  //     }
-
-  //     cb(result);
-  //   });
-  // },
+    connection.query(queryString, function(err, result) {
+      if (err) {
+        throw err;
+      }
+      console.log(result)
+      cb(result);
+    });
+  },
   selectWhere: function (tableInput, colToSearch, valOfCol, cb) {
     var queryString = "SELECT * FROM ?? WHERE ?? = ?";
     connection.query(queryString, [tableInput, colToSearch, valOfCol], function (err, result) {
@@ -81,7 +81,6 @@ var orm = {
       if (err) throw err;
       cb(err, result)
     });
-
   }
 };
 

@@ -72,13 +72,14 @@ module.exports = function (app) {
     var address2 = req.body.to;
     geocoder.geocode(address1, function(err, res) {
       try {
-        console.log("geocode");
+        console.log(res)
         trip.push({ lat: res[0].latitude, long: res[0].longitude });
       } catch (err) {
         console.log(err);
       }
       geocoder.geocode(address2, function(err, res) {
         try {
+          console.log(res)
           trip.push({ lat: res[0].latitude, long: res[0].longitude });
           console.log(trip);
 
@@ -98,7 +99,7 @@ module.exports = function (app) {
           lfest(trip[0].lat, trip[0].long, trip[1].lat, trip[1].long);
         })
         .error(function(err) {
-          console.error(err);
+          // console.error(err);
           res.sendStatus(500);
         });
     }
@@ -122,7 +123,7 @@ module.exports = function (app) {
           console.log(route);
           res.send(route);
         } catch (err) {
-          console.error(err);
+          // console.error(err);
           res.sendStatus(500);
         }
       });
@@ -150,17 +151,17 @@ module.exports = function (app) {
     );
   });
 
-  // app.delete("/api/useraddress/:id", function(req, res) {
-  //   var condition = "id = " + req.params.id;
+  app.delete("/api/useraddress/:id", function(req, res) {
+    var condition = "id = " + req.params.id;
 
-  //   user.delete(condition, function(result) {
-  //     if (result.affectedRows == 0) {
-  //       // If no rows were changed, then the ID must not exist, so 404
-  //       return res.status(404).end();
-  //     } else {
-  //       res.status(200).end();
-  //     }
-  //   });
-  // });
+    user.delete(condition, function(result) {
+      if (result.affectedRows == 0) {
+        // If no rows were changed, then the ID must not exist, so 404
+        return res.status(404).end();
+      } else {
+        res.status(200).end();
+      }
+    });
+  });
 
 };

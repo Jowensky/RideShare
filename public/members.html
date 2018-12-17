@@ -41,9 +41,10 @@
       };
       $.post("/api/price", route, function(data) {
 
-        console.log('got it')
+        if (!data) {$("#uberPrice").text("location or destination not found")}
         $("#uberPrice").text(`Uber: ${data[0]}`);
         $("#lyftPrice").text(`Lyft: ${data[1]}`);
+       
       });
     });
     
@@ -56,8 +57,9 @@
       $.post("/address", function(data) {
         for (var add in data.address) {
           var li = $("<button>")
-          li.attr("data-id",  data.address[add].ID).attr("id", "delete").append(`Location: ${data.address[add].Location} --  Destination: ${data.address[add].Destination} <br>`);
-          $("#address").append(li);
+          var br = $("<br>")
+          li.attr("data-id",  data.address[add].ID).attr("id", "delete").append(`Location: ${data.address[add].Location} --  Destination: ${data.address[add].Destination}`);
+          $("#address").append(li).append(br)
         }
      });
     });
@@ -81,19 +83,33 @@
     });
 
 
-    // $("#delete").on("click", function() {
-    //   console.log('clicked')
+    $("body").on("dblclick", "#delete", function() {
+      console.log('clicked')
 
-    //   var id = $(this).data("id");
+      $(this).toggle("slow");
+      var id = $(this).data("id");
+
+      $.ajax("/api/useraddress/" + id, {
+        type: "DELETE"
+      }).then(
+        function() {
+          console.log("deleted address" + id);
+        }
+      );
+    })
+
+
+    // $("body").on("dblclick", "#delete", function() {
+    //   console.log('clicked')
       
+    //   $(this).toggle("slow");
+    //   var id = $(this).data("id");
 
     //   $.ajax("/api/useraddress/" + id, {
     //     type: "DELETE"
     //   }).then(
     //     function() {
-    //       console.log("deleted adress", id);
-        
-    //       location.reload();
+    //       console.log("deleted address" + id);
     //     }
     //   );
     // })
