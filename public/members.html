@@ -39,12 +39,11 @@
           .val()
           .trim()
       };
-
       $.post("/api/price", route, function(data) {
 
         console.log('got it')
-        $("#uberPrice").text(data[0]);
-        $("#lyftPrice").text(data[1]);
+        $("#uberPrice").text(`Uber: ${data[0]}`);
+        $("#lyftPrice").text(`Lyft: ${data[1]}`);
       });
     });
     
