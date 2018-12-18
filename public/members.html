@@ -14,6 +14,7 @@
   <body>
     <input id="from" type="text" /> <input id="to" type="text" />
     <button id="submit">Click Me</button>
+    <p id="not"></p>
     <p id="lyftPrice"></p>
     <p id="uberPrice"></p>
     <p>
@@ -40,15 +41,17 @@
           .trim()
       };
       $.post("/api/price", route, function(data) {
-
-        if (!data) {$("#uberPrice").text("location or destination not found")}
+        if (data === 'not found') {
+          $('#not').text(' location or destination not found ');
+        } else if (data === 'Distance between two points exceeds 100 miles') {
+          $('#not').text(data)
+        } else {
         $("#uberPrice").text(`Uber: ${data[0]}`);
         $("#lyftPrice").text(`Lyft: ${data[1]}`);
-       
+        }
       });
     });
     
-
     $("#add").on("click", function(e) {
       e.preventDefault();
 
@@ -82,7 +85,6 @@
       });
     });
 
-
     $("body").on("dblclick", "#delete", function() {
       console.log('clicked')
 
@@ -98,20 +100,19 @@
       );
     })
 
-
-    // $("body").on("dblclick", "#delete", function() {
-    //   console.log('clicked')
+    $("body").on("dblclick", "#delete", function() {
+      console.log('clicked')
       
-    //   $(this).toggle("slow");
-    //   var id = $(this).data("id");
+      $(this).toggle("slow");
+      var id = $(this).data("id");
 
-    //   $.ajax("/api/useraddress/" + id, {
-    //     type: "DELETE"
-    //   }).then(
-    //     function() {
-    //       console.log("deleted address" + id);
-    //     }
-    //   );
-    // })
+      $.ajax("/api/useraddress/" + id, {
+        type: "DELETE"
+      }).then(
+        function() {
+          console.log("deleted address" + id);
+        }
+      );
+    })
   </script>
 </html>

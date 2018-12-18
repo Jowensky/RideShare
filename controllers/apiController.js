@@ -28,35 +28,25 @@ module.exports = function (app) {
     })(req, res)
   }
 
-  // Using the passport.authenticate middleware with our local strategy.
-  // If the user has valid login credentials, send them to the members page.
-  // Otherwise the user will be sent an error
   app.post("/api/login", function (req, res, next) {
     auth(req, res, next, "local-login")
   });
 
-  // Route for signing up a user. The user's password is automatically hashed and stored securely thanks to
-  // how we configured our Sequelize User Model. If the user is created successfully, proceed to log the user in,
-  // otherwise send back an error
   app.post("/api/signup", function (req, res, next) {
     auth(req, res, next, "local-signup")
   });
 
-  // Route for logging user out
   app.get("/logout", function (req, res) {
     req.logout();
     res.redirect("/");
   });
 
-  // Route for getting some data about our user to be used client side
   app.get("/api/user_data", function (req, res) {
     if (!req.user) {
-      // The user is not logged in, send to home page
+
       res.redirect("/");
     }
     else {
-      // Otherwise send back the user's email and id
-      // Sending back a password, even a hashed password, isn't a good idea
       res.json({
         email: req.user.email,
         id: req.user.id
@@ -70,20 +60,28 @@ module.exports = function (app) {
 
     var address1 = req.body.from;
     var address2 = req.body.to;
-    geocoder.geocode(address1, function(err, res) {
+    geocoder.geocode(address1, function(err, resp) {
       try {
-        console.log(res)
-        trip.push({ lat: res[0].latitude, long: res[0].longitude });
+        if (resp[0].city === '') {
+          console.log('not found')
+        } else {
+        console.log(resp)
+        trip.push({ lat: resp[0].latitude, long: resp[0].longitude });
+      }
       } catch (err) {
         console.log(err);
       }
-      geocoder.geocode(address2, function(err, res) {
+      geocoder.geocode(address2, function(err, resp) {
         try {
-          console.log(res)
-          trip.push({ lat: res[0].latitude, long: res[0].longitude });
+          if (resp[0].city === '') {
+            console.log('not found') 
+            res.send('not found')
+          } else {
+          console.log(resp)
+          trip.push({ lat: resp[0].latitude, long: resp[0].longitude });
           console.log(trip);
-
           ubest(trip[0].lat, trip[0].long, trip[1].lat, trip[1].long);
+          }
         } catch (err) {
           console.log(err);
         }
@@ -100,7 +98,9 @@ module.exports = function (app) {
         })
         .error(function(err) {
           // console.error(err);
-          res.sendStatus(500);
+          // res.sendStatus(500);
+          console.log(err.body.message)
+          res.send(err.body.message)
         });
     }
 
@@ -123,8 +123,9 @@ module.exports = function (app) {
           console.log(route);
           res.send(route);
         } catch (err) {
-          // console.error(err);
-          res.sendStatus(500);
+          console.error(err);
+     
+          res.status(500);
         }
       });
     }
