@@ -13,20 +13,21 @@
   </head>
   <body>
     <input id="from" type="text" /> <input id="to" type="text" />
-    <button id="submit">Click Me</button>
-    <p id="not"></p>
+    <button id="search">Click Me</button> 
+    <p id="notfound"></p>
     <p id="lyftPrice"></p>
     <p id="uberPrice"></p>
     <p>
       <ul id="address">
+        <p>double click to delete address</p>
 
       </ul>
     </p>
-    <button id="add">Previously Searched Address</button>
+    <button id="previousSearch">Previously Searched Address</button>
     <button id="save">Save Address</button>
   <script>
 
-    $("#submit").on("click", function(e) {
+    $("#search").on("click", function(e) {
       e.preventDefault();
 
       $("#uberPrice").empty();
@@ -41,10 +42,11 @@
           .trim()
       };
       $.post("/api/price", route, function(data) {
+        console.log(data)
         if (data === 'not found') {
-          $('#not').text(' location or destination not found ');
+          $('#notfound').text(' location or destination not found ');
         } else if (data === 'Distance between two points exceeds 100 miles') {
-          $('#not').text(data)
+          $('#notfound').text(data)
         } else {
         $("#uberPrice").text(`Uber: ${data[0]}`);
         $("#lyftPrice").text(`Lyft: ${data[1]}`);
@@ -52,7 +54,7 @@
       });
     });
     
-    $("#add").on("click", function(e) {
+    $("#previousSearch").on("click", function(e) {
       e.preventDefault();
 
       $("#address").empty()
@@ -103,7 +105,7 @@
     $("body").on("dblclick", "#delete", function() {
       console.log('clicked')
       
-      $(this).toggle("slow");
+      $(this).hide();
       var id = $(this).data("id");
 
       $.ajax("/api/useraddress/" + id, {

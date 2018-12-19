@@ -18,3 +18,5 @@ CREATE TABLE users (
 	PRIMARY KEY (ID)
 );
 
+select * from users
+

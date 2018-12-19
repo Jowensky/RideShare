@@ -1,5 +1,6 @@
 // Getting references to our form and inputs
 function handleLoginSugnup(form, url) {
+    
     var form = $(form);
     var emailInput = $("input#email-input");
     var passwordInput = $("input#password-input");
@@ -7,6 +8,7 @@ function handleLoginSugnup(form, url) {
     // When the form is submitted, we validate there's an email and password entered
     form.on("submit", function (event) {
         event.preventDefault();
+        console.log('clicked')
         $(".container").hide();
         var userData = {
             email: emailInput.val().trim(),

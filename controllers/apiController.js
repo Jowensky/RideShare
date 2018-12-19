@@ -6,47 +6,45 @@ var uber = require("../dashboard/uber");
 var lyft = require("../dashboard/lyft");
 var geocoder = require("../dashboard/geocode");
 
-module.exports = function (app) {
-
+module.exports = function(app) {
   function auth(req, res, next, authMethod) {
-    passport.authenticate(authMethod, function (err, user, info) {
+    passport.authenticate(authMethod, function(err, user, info) {
       if (err) {
-        res.status(500)
-        res.json(err)
+        res.status(500);
+        res.json(err);
       }
       if (!user) {
-        res.status(401)
+        res.status(401);
         // res.json(info.message)
-      }
-      else {
-        req.logIn(user, function (err) {
-          if (err) { return next(err); }
-          res.status(200)
+      } else {
+        req.logIn(user, function(err) {
+          if (err) {
+            return next(err);
+          }
+          res.status(200);
           res.json("/members");
         });
       }
-    })(req, res)
+    })(req, res);
   }
 
-  app.post("/api/login", function (req, res, next) {
-    auth(req, res, next, "local-login")
+  app.post("/api/login", function(req, res, next) {
+    auth(req, res, next, "local-login");
   });
 
-  app.post("/api/signup", function (req, res, next) {
-    auth(req, res, next, "local-signup")
+  app.post("/api/signup", function(req, res, next) {
+    auth(req, res, next, "local-signup");
   });
 
-  app.get("/logout", function (req, res) {
+  app.get("/logout", function(req, res) {
     req.logout();
     res.redirect("/");
   });
 
-  app.get("/api/user_data", function (req, res) {
+  app.get("/api/user_data", function(req, res) {
     if (!req.user) {
-
       res.redirect("/");
-    }
-    else {
+    } else {
       res.json({
         email: req.user.email,
         id: req.user.id
@@ -61,26 +59,29 @@ module.exports = function (app) {
     var address1 = req.body.from;
     var address2 = req.body.to;
     geocoder.geocode(address1, function(err, resp) {
+      console.log(resp);
       try {
-        if (resp[0].city === '') {
-          console.log('not found')
+        if (resp[0].city === "") {
+          console.log("not found");
+          res.send('not found')
         } else {
-        console.log(resp)
-        trip.push({ lat: resp[0].latitude, long: resp[0].longitude });
-      }
+          console.log(resp);
+          trip.push({ lat: resp[0].latitude, long: resp[0].longitude });
+        }
       } catch (err) {
         console.log(err);
       }
       geocoder.geocode(address2, function(err, resp) {
+        console.log(resp);
         try {
-          if (resp[0].city === '') {
-            console.log('not found') 
-            res.send('not found')
+          if (resp[0].city === "") {
+            console.log("not found");
+            res.send("not found");
           } else {
-          console.log(resp)
-          trip.push({ lat: resp[0].latitude, long: resp[0].longitude });
-          console.log(trip);
-          ubest(trip[0].lat, trip[0].long, trip[1].lat, trip[1].long);
+            console.log(resp);
+            trip.push({ lat: resp[0].latitude, long: resp[0].longitude });
+            console.log(trip);
+            ubest(trip[0].lat, trip[0].long, trip[1].lat, trip[1].long);
           }
         } catch (err) {
           console.log(err);
@@ -88,10 +89,10 @@ module.exports = function (app) {
       });
     });
 
-      function ubest(slat, slong, elat, elong) {
-       uber.estimates
+    function ubest(slat, slong, elat, elong) {
+      uber.estimates
         .getPriceForRouteAsync(slat, slong, elat, elong)
-        .then( async function(response) {
+        .then(async function(response) {
           console.log(`Uber: ${response.prices[0].estimate}`);
           await route.push(response.prices[0].estimate);
           lfest(trip[0].lat, trip[0].long, trip[1].lat, trip[1].long);
@@ -99,13 +100,13 @@ module.exports = function (app) {
         .error(function(err) {
           // console.error(err);
           // res.sendStatus(500);
-          console.log(err.body.message)
-          res.send(err.body.message)
+          console.log(err.body.message);
+          res.send(err.body.message);
         });
     }
 
-      function lfest(slat, slong, elat, elong) {
-       var regularlyft = {
+    function lfest(slat, slong, elat, elong) {
+      var regularlyft = {
         start: {
           latitude: slat,
           longitude: slong
@@ -118,13 +119,22 @@ module.exports = function (app) {
       };
       lyft.getRideEstimates(regularlyft).then(async respo => {
         try {
-          console.log(`Lyft: $${move_decimal(respo[0].estimatedCostCentsMin, -2)}-${move_decimal(respo[0].estimatedCostCentsMax, -2)}`);
-          await route.push(`$${move_decimal(respo[0].estimatedCostCentsMin,-2)}-${move_decimal(respo[0].estimatedCostCentsMax, -2)}`);
+          console.log(
+            `Lyft: $${move_decimal(
+              respo[0].estimatedCostCentsMin,
+              -2
+            )}-${move_decimal(respo[0].estimatedCostCentsMax, -2)}`
+          );
+          await route.push(
+            `$${move_decimal(
+              respo[0].estimatedCostCentsMin,
+              -2
+            )}-${move_decimal(respo[0].estimatedCostCentsMax, -2)}`
+          );
           console.log(route);
           res.send(route);
         } catch (err) {
           console.error(err);
-     
           res.status(500);
         }
       });
@@ -164,5 +174,4 @@ module.exports = function (app) {
       }
     });
   });
-
 };
