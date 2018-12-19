@@ -63,7 +63,7 @@ module.exports = function(app) {
       try {
         if (resp[0].city === "") {
           console.log("not found");
-          res.send('not found')
+          res.send("not found");
         } else {
           console.log(resp);
           trip.push({ lat: resp[0].latitude, long: resp[0].longitude });
@@ -90,19 +90,18 @@ module.exports = function(app) {
     });
 
     function ubest(slat, slong, elat, elong) {
-      uber.estimates
-        .getPriceForRouteAsync(slat, slong, elat, elong)
-        .then(async function(response) {
-          console.log(`Uber: ${response.prices[0].estimate}`);
-          await route.push(response.prices[0].estimate);
-          lfest(trip[0].lat, trip[0].long, trip[1].lat, trip[1].long);
-        })
-        .error(function(err) {
-          // console.error(err);
-          // res.sendStatus(500);
-          console.log(err.body.message);
-          res.send(err.body.message);
-        });
+      uber.estimates.getPriceForRouteAsync(slat, slong, elat, elong)
+      .then(async function(response) {
+        console.log(`Uber: ${response.prices[0].estimate}`);
+        await route.push(response.prices[0].estimate);
+        lfest(trip[0].lat, trip[0].long, trip[1].lat, trip[1].long);
+      })
+      .error(function(err) {
+        // console.error(err);
+        // res.sendStatus(500);
+        console.log(err.body.message);
+        res.send(err.body.message);
+      });
     }
 
     function lfest(slat, slong, elat, elong) {
