@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link rel="stylesheet" type="text/css" href="./stylesheets/members.css">  
     <script
       src="https://code.jquery.com/jquery-3.3.1.min.js"
       integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
@@ -11,27 +12,153 @@
     ></script>
     <title>RideShare</title>
   </head>
-  <body>
-    <input id="from" type="text" /> <input id="to" type="text" />
-    <button id="search">Click Me</button> 
-    <p id="notfound"></p>
-    <p id="lyftPrice"></p>
-    <p id="uberPrice"></p>
-    <p>
-      <ul id="address">
-        <p>double click to delete address</p>
 
-      </ul>
-    </p>
-    <button id="previousSearch">Previously Searched Address</button>
-    <button id="save">Save Address</button>
+  <body>
+
+    <!-- <div class="page-back"></div> -->
+    <!-- <div id="main"> -->
+
+      <h1 id="logo">Ride Share</h1>
+
+      <div class="profileContainer">
+        <input id="from" type="text" placeholder="From" /> <input id="to" type="text" placeholder="To"/> <br>
+        
+        <p id="notfound"></p>
+      </div>
+
+      <div id="buttons">
+      <button id="search">Search</button><br><button id="previousSearch">Previous</button><br><button id="save">Save</button>
+      </div>
+
+      <div class="addressBook">
+      <ul id="address">
+          <p></p>
+        </ul>
+      </div>
+
+     
+
+      <section class="compareContent"> 
+        <div class="split left">
+          <div class="centered">
+            <img id="lyftImage" src="./stylesheets/images/p_lyftLogo.png" height="200px;" width="200px;">
+            <div style="display:none;" id="lyftContent">
+              <p style="color:white;" id="lyftprice"></p>
+             </div>
+          </div>
+        </div>
+        
+        <div class="split right">
+          <div class="centered">
+            <img id="uberImage" src="./stylesheets/images/p_uberlogo.png" height="200px;" width="200px;">
+            <div style="display:none" id="uberContent">
+              <p style="color:white;" id="uberprice"></p>
+            </div>   
+        </div>
+      </section>
+
+      <!-- <div id="uberContainer">
+        <img id="uberImage" src="stylesheets/images/p_uberlogo.png" height="200px;" width="200px;">
+        <div style="display: none" id="uberContent">
+          <h2>Uber Price</h2>
+          <p id="uberPrice"></p>
+        </div>
+      </div>
+
+      <div id="lyftContainer">
+        <img id="lyftImage" src="stylesheets/images/p_lyftlogo.png" height="200px;" width="200px;">
+        <div style="display: none" id="lyftContent">
+          <h2>Lyft Price</h2>
+          <p id="lyftPrice"></p>
+        </div>
+      </div>
+
+      <div id="historyContainer">
+        <img id="historyImage" src="stylesheets/images/p_historylogo.png" height="200px;" width="200px;">
+        <div style="display: none" id="historyContent">
+          <button id="previousSearch">Previously Searched Address</button>
+          <ul id="address">
+            <p>double click to delete address</p>
+          </ul>
+        </div>
+      </div> -->
+
+    <!-- </div> -->
+
   <script>
 
+    $(".right").on("click", function() {
+      $("#uberImage").toggle();
+      $("#uberContent").toggle();
+    })
+    
+    $(".left").on("click", function() {
+      $("#lyftImage").toggle();
+      $("#lyftContent").toggle();
+    })
+    
+    // $("#uberContainer").on("click", function() {
+    //   $("#uberImage").toggle();
+    //   $("#uberContent").toggle()
+    // })
+
+    // $("#lyftContainer").on("click", function() {
+    //   $("#lyftImage").toggle();
+    //   $("#lyftContent").toggle()
+    // })
+
+    // $("#historyContainer").on("click", function() {
+    //   $("#historyImage").toggle();
+    //   $("#historyContent").toggle()
+    // })
+    
+    // --- Parallax //
+      // var uberContainer = $("#uberContainer");
+      // var lyftContainer = $("#lyftContainer");
+      // var historyContainer = $("#historyContainer");
+
+      // var layer=$("body");
+
+      // layer.mousemove(function(e){
+      //     var valueX=(e.pageX * -1 / 12); 
+      //     var valueY=(e.pageY * -1 / 12); 
+          
+      //     uberContainer.css({
+      //         'transform':'translate3d('+valueX+'px,'+valueY+'px,0)'
+      //     });
+      // });
+
+      // layer.mousemove(function(e){
+      //     var valueX=(e.pageX * -1 / 15); 
+      //     var valueY=(e.pageY * -1 / 20); 
+          
+      //     lyftContainer.css({
+      //         'transform':'translate3d('+valueX+'px,'+valueY+'px,0)'
+      //     });
+      // });
+
+      // layer.mousemove(function(e){
+      //     var valueX=(e.pageX * -1 / 15); 
+      //     var valueY=(e.pageY * -1 / 15); 
+          
+      //     historyContainer.css({
+      //         'transform':'translate3d('+valueX+'px,'+valueY+'px,0)'
+      //     });
+      // });
+    // --- Parallax //
+
+    // API Calls //
     $("#search").on("click", function(e) {
       e.preventDefault();
 
+      var from = $("#from").val();
+      var to = $("#to").val();
+
+      if (from === '' || to === '') {$("#notfound").text('Inputs must be filled'); return false;} else {
+
       $("#uberPrice").empty();
-        $("#lyftPrice").empty();
+      $("#lyftPrice").empty();
+      $("#notfound").empty();
 
       var route = {
         from: $("#from")
@@ -48,12 +175,13 @@
         } else if (data === 'Distance between two points exceeds 100 miles') {
           $('#notfound').text(data)
         } else {
-        $("#uberPrice").text(`Uber: ${data[0]}`);
-        $("#lyftPrice").text(`Lyft: ${data[1]}`);
+        $("#uberprice").text(`Uber: ${data[2]}`);
+        $("#lyftprice").text(`Lyft: ${data[1]}`);
         }
       });
+    }
     });
-    
+
     $("#previousSearch").on("click", function(e) {
       e.preventDefault();
 
@@ -61,12 +189,12 @@
 
       $.post("/address", function(data) {
         for (var add in data.address) {
-          var li = $("<button>")
+          var li = $("<li>")
           var br = $("<br>")
-          li.attr("data-id",  data.address[add].ID).attr("id", "delete").append(`Location: ${data.address[add].Location} --  Destination: ${data.address[add].Destination}`);
+          li.attr("data-id",  data.address[add].ID).attr("id", "delete").append(`From: ${data.address[add].Location} <br>  To: ${data.address[add].Destination}`).css("border-bottom", "1.5px solid white");
           $("#address").append(li).append(br)
         }
-     });
+      });
     });
 
     $("#save").on("click", function(e) {
@@ -116,5 +244,8 @@
         }
       );
     })
+    // API Calls //
+
   </script>
+</body>
 </html>

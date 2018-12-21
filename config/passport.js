@@ -33,44 +33,6 @@ passport.use(
   )
 );
 
-passport.use(
-  "local-signup",
-  new LocalStrategy(
-    {
-      // by default, local strategy uses username and password, we will override with email
-      usernameField: "email",
-      passwordField: "password",
-      passReqToCallback: true // allows us to pass back the entire request to the callback
-    },
-    function(req, username, password, done) {
-      // find a user whose email is the same as the forms email
-      // we are checking to see if the user trying to login already exists
-      orm.selectWhere("username", username, function(err, rows) {
-        if (err) return done(err);
-        if (rows.length) {
-          return done(null, false, {
-            message: "That username is already taken."
-          });
-        } else {
-          // if there is no user with that username
-          // create the user
-          var newUser = {
-            username: username,
-            password: bcrypt.hashSync(password, null, null) // use the generateHash function in our user model
-          };
-          
-          orm.createUser(
-            { username: newUser.username, passwords: newUser.password },
-            function(err, rows) {
-              return done(null, rows[0]);
-            }
-          );
-        }
-      });
-    }
-  )
-);
-
 // required for persistent login sessions
 // passport needs ability to serialize and unserialize users out of session
 

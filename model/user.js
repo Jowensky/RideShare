@@ -21,12 +21,6 @@ var rideshare = {
     orm.selectWhere("users", cols, vals, function(err, rows){
       cb(err, rows)
     })
-  },
-  // The variables cols and vals are arrays.
-  createUser: function (cols_vals, cb) {
-    orm.createUser("users", cols_vals, function(err, rows){
-      cb(err, rows)
-    })
   }
 };
 

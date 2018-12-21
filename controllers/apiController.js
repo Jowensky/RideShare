@@ -92,6 +92,7 @@ module.exports = function(app) {
     function ubest(slat, slong, elat, elong) {
       uber.estimates.getPriceForRouteAsync(slat, slong, elat, elong)
       .then(async function(response) {
+        console.log(response)
         console.log(`Uber: ${response.prices[0].estimate}`);
         await route.push(response.prices[0].estimate);
         lfest(trip[0].lat, trip[0].long, trip[1].lat, trip[1].long);

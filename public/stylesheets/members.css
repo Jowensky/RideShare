@@ -1,0 +1,113 @@
+/* .page-back {
+    width: 120%;
+    height: 120%;
+    left: -10%;
+    top: -10%;
+    position: absolute;
+    background-image: url("../stylesheets/images/nightblack.gif");
+    background-size: cover;
+    background-position: center;
+    -webkit-filter: blur(3px);
+    overflow: hidden;
+} */
+body {
+    margin: 0px;
+    padding: 0px;
+    overflow: hidden;
+    background-color: black;
+}
+/* #main{
+    height: 100vh;
+    width: 100%;
+    position: absolute;
+    overflow: hidden;
+} */
+/* #logo {
+    z-index: 4;
+    font-size: 80px;
+    position: absolute;
+    margin-left: 4%;
+    color: rgb(48, 47, 47);
+} */
+.profileContainer {
+    margin: 0 auto;
+    width: 400px;
+    border: 2px solid white;
+    padding: 2px;
+}
+.profileContainer #from, .profileContainer #to {
+    border: none;
+    background: none;
+    color: white;
+}
+.profileContainer #to {
+    float: right;
+    margin-right: 2px;
+}
+.profileContainer #from {
+    margin-left: 2px;
+}
+.profileContainer input {
+    width: 165px;
+}
+#notfound {
+    color: white; 
+    text-align: center;
+}
+.addressBook {
+    margin: 0 auto;
+    width: 400px;
+    padding: 2px;
+    height: 200px;
+    overflow: scroll;
+}
+#address {
+    color: white;
+}
+ul {
+    list-style-type: none;
+}
+#buttons {
+    left: 0; 
+    right: 0;
+    margin: 0 auto;
+}
+#buttons button {
+    background-color: rgb(217,4,114);
+    color: rgb(255, 255, 255);
+    border: none;
+}
+.compareContent {
+    position: relative;
+    height: 1000px;
+    width: 100%;
+    margin: 0 auto;
+    border-top: 2px solid black;
+}
+.split {
+    position: absolute;
+    height: 100%;
+    width: 50%;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    overflow-x: hidden;
+    padding-top: 20px;
+}
+.left {
+    position: absolute;
+    left: 0;
+    background-color: black;
+}
+.right {
+    position: absolute;
+    right: 0;
+    background-color: black;
+}
+.centered {
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}

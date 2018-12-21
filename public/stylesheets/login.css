@@ -2,7 +2,8 @@
 #wallpaper {
     margin: 0;
     padding: 0;
-    background-image: url('./images/nightblack.gif');
+    /* background-color: black; */
+    background-image: url('./images/share.jpg');
     background-size: cover;
 }
 .login-box{
@@ -36,5 +37,4 @@
     font-size: 18px;
     cursor: pointer;
     margin: 12px 0;
-  }
-  
+}

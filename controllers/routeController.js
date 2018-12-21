@@ -1,11 +1,5 @@
 require("dotenv").config();
-var user = require("../model/user");
-var uber = require("../dashboard/uber");
-var lyft = require("../dashboard/lyft");
-var geocoder = require("../dashboard/geocode");
 var path = require("path");
-var move_decimal = require("move-decimal-point");
-
 
 // Requiring our custom middleware for checking if a user is logged in
 var isAuthenticated = function (req, res, next){
@@ -27,7 +21,7 @@ module.exports = function(app) {
     if (req.user) {
       res.redirect("/members");
     }
-    res.sendFile(path.join(__dirname, "../public/signup.html"));
+    res.sendFile(path.join(__dirname, "../public/login.html"));
   });
 
   // after login in 
