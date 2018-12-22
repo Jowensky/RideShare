@@ -52,6 +52,10 @@ body {
 .addressBook #address {
     height: 200px;
     color: white;
+    font-family: 'Open Sans Condensed';
+}
+#oldesti p{
+   border: none;
 }
 ul {
     list-style-type: none;
@@ -62,12 +66,12 @@ ul {
     margin: 0 auto;
 }
 #buttons button {
-    background-color: rgb(255, 255, 255);
-    color: rgb(255, 255, 255);
+    background-color: rgb(217,4,114);
+    color: rgb(217,4,114);
     border: none;
 }
 #buttons button:hover {
-    background-color: rgb(217,4,114);
+    background-color: rgb(255, 255, 255);
 }
 .compareContent {
     position: relative;
@@ -109,5 +113,6 @@ ul {
     left: 0;
     right: 0;
     margin: 0 auto;
+    width: auto;
     font-family: 'Open Sans Condensed';
 }
