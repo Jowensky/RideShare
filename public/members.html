@@ -92,10 +92,16 @@
       }
        post(route);
     });
-
+    // empty lyft and uber div
+    
+    function clear() {
+      $("#uberprice").html('');
+      $("#lyftprice").html('');
+    }
     // if no input is found, text will log to DOM    
     function noInput() {
       $("#notfound").text('Input must be filled') 
+      clear()
     }
 
     // makes post to Uber/Lyft Api 
@@ -104,8 +110,10 @@
         console.log(data)
         if (data === 'not found' || data === null) {
           $('#notfound').text(' location or destination not found ');
+          clear();
         } else if (data === 'Distance between two points exceeds 100 miles') {
           $('#notfound').text(data)
+          clear();
         } else {
         $("#uberprice").text(`Uber: ${data[0]}`);
         $("#lyftprice").text(`Lyft: ${data[1]}`);
