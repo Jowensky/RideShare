@@ -11,7 +11,7 @@ body {
     padding: 2px;
     padding-bottom: 4px;
 }
-.profileContainer #from, .profileContainer #to {
+.profileContainer input {
     border: none;
     background: none;
     color: white;
@@ -43,6 +43,7 @@ body {
     margin-top: 0px;
     text-align: center;
     color: white;
+    font-family: 'Major Mono Display';
 }
 #address {
     color: white;
@@ -56,12 +57,12 @@ ul {
     margin: 0 auto;
 }
 #buttons button {
-    background-color: rgb(217,4,114);
+    background-color: rgb(255, 255, 255);
     color: rgb(255, 255, 255);
     border: none;
 }
 #buttons button:hover {
-    background-color: rgb(255, 255, 255);
+    background-color: rgb(217,4,114);
 }
 .compareContent {
     position: relative;
