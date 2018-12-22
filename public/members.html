@@ -16,6 +16,7 @@
 
   <body>
 
+    <p style="color:white;font-size:28px;" id="notfound"></p>
     <h1 id="logo">Ride Share</h1>
 
     <div class="profileContainer">
@@ -39,7 +40,7 @@
         <div class="centered">
           <img id="lyftImage" src="./stylesheets/images/p_lyftLogo.png" height="200px;" width="200px;">
           <div style="display:none;" id="lyftContent">
-            <p style="color:white;" id="lyftprice"></p>
+            <p style="color:white;font-size: 25px;" id="lyftprice"></p>
           </div>
         </div>
       </div>
@@ -48,7 +49,7 @@
         <div class="centered">
           <img id="uberImage" src="./stylesheets/images/p_uberlogo.png" height="200px;" width="200px;">
           <div style="display:none" id="uberContent">
-            <p style="color:white;" id="uberprice"></p>
+            <p style="color:white;font-size: 25px;" id="uberprice"></p>
           </div>   
       </div>
       
@@ -59,63 +60,80 @@
     $(".right").on("click", function() {
       $("#uberImage").toggle();
       $("#uberContent").toggle();
-    })
+    });
     
     $(".left").on("click", function() {
       $("#lyftImage").toggle();
       $("#lyftContent").toggle();
-    })
+    });
+
+    $("#previousSearch").on("click", function(e) {
+      $(".addressBook h1").toggle();
+      $("#address").empty() 
+      address(e)
+    });
 
     // API Calls //
-    $("#search").on("click", function(e) {
-      e.preventDefault();
 
-      var from = $("#from").val();
-      var to = $("#to").val();
+    // handles input values
+    $("body").on("click", "#search", function(e) {
 
-      if (from === '' || to === '') {$("#notfound").text('Inputs must be filled'); return false;} else {
-
+      var route = {
+        from: $("#from").val().trim(),
+        to:  $("#to").val().trim()
+      };  
+      
       $("#uberPrice").empty();
       $("#lyftPrice").empty();
       $("#notfound").empty();
 
-      var route = {
-        from: $("#from")
-          .val()
-          .trim(),
-        to: $("#to")
-          .val()
-          .trim()
-      };
+      if (route.from === '' || route.to === '') {
+        noInput();
+      }
+       post(route);
+    });
+
+    // if no input is found, text will log to DOM    
+    function noInput() {
+      $("#notfound").text('Input must be filled') 
+    }
+
+    // makes post to Uber/Lyft Api 
+    function post(route) {
       $.post("/api/price", route, function(data) {
         console.log(data)
-        if (data === 'not found') {
+        if (data === 'not found' || data === null) {
           $('#notfound').text(' location or destination not found ');
         } else if (data === 'Distance between two points exceeds 100 miles') {
           $('#notfound').text(data)
         } else {
-        $("#uberprice").text(`Uber: ${data[2]}`);
+        $("#uberprice").text(`Uber: ${data[0]}`);
         $("#lyftprice").text(`Lyft: ${data[1]}`);
         }
       });
-    }
-    });
+    };
 
-    $("#previousSearch").on("click", function(e) {
-      e.preventDefault();
-
-      $("#address").empty()
-
+    // makes call to database to retrieve all and place on DOM
+    function address(e) {
       $.post("/address", function(data) {
         for (var add in data.address) {
+          var fp = $("<p>")
+          var tp = $("<p>")
           var li = $("<li>")
           var br = $("<br>")
-          li.attr("data-id",  data.address[add].ID).attr("id", "oldesti").append(`From: ${data.address[add].Location} <br>  To: ${data.address[add].Destination}`).css("border-bottom", "1.5px solid white");
+          fp.append(`From: ${data.address[add].Location}`)
+          tp.append(`To: ${data.address[add].Destination}`)
+          li.attr("data-id",  data.address[add].ID).attr("data-at", `${data.address[add].Location}`)
+          .attr("data-to", ` ${data.address[add].Destination}`)
+          .attr("id", "oldesti")
+          .append(fp).append(tp)
+          .css("border-bottom", "1.5px solid white");
           $("#address").append(li).append(br)
         }
       });
-    });
+    };
 
+    // saves adresss to database
     $("#save").on("click", function(e) {
       e.preventDefault();
 
@@ -133,7 +151,18 @@
         console.log('In sql')
       });
     });
+    
+    $("body").on("click", "#oldesti", function() {
+      var route = {
+        from: $(this)
+        .data("at"),
+        to: $(this)
+        .data("to")
+      };
+      post(route);
+    })
 
+    // deletes item from database
     $("body").on("dblclick", "#oldesti", function() {
       console.log('clicked')
       
