@@ -15,7 +15,6 @@ module.exports = function(app) {
       }
       if (!user) {
         res.status(401);
-        // res.json(info.message)
       } else {
         req.logIn(user, function(err) {
           if (err) {
@@ -98,8 +97,6 @@ module.exports = function(app) {
         lfest(trip[0].lat, trip[0].long, trip[1].lat, trip[1].long);
       })
       .error(function(err) {
-        // console.error(err);
-        // res.sendStatus(500);
         console.log(err.body.message);
         res.send(err.body.message);
       });
@@ -156,7 +153,6 @@ module.exports = function(app) {
       ["Location", "Destination"],
       [req.body.location, req.body.destination],
       function(result) {
-        // Send back the ID of the new quote
         console.log(result);
       }
     );
@@ -167,7 +163,6 @@ module.exports = function(app) {
 
     user.delete(condition, function(result) {
       if (result.affectedRows == 0) {
-        // If no rows were changed, then the ID must not exist, so 404
         return res.status(404).end();
       } else {
         res.status(200).end();
