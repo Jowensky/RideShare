@@ -116,3 +116,19 @@ ul {
     width: auto;
     font-family: 'Open Sans Condensed';
 }
+
+@media screen and (max-width: 640px) {
+    #uberImage, #lyftImage {
+        height: 150px;
+        width: 150px;
+    }
+
+    .addressBook, .profileContainer {
+        width: 350px;
+    }
+
+    #uberprice, #lyftprice {
+        font-size: 17px;
+        text-align: center;
+    }
+}

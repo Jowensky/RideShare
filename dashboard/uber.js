@@ -1,4 +1,3 @@
-
 var Uber = require("node-uber");
 var uber = new Uber({
   client_id: process.env.Uber_ID,
