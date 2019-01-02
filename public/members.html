@@ -15,7 +15,7 @@
   </head>
 
   <body>
-    
+      
     <p style="color:white;font-size:28px;" id="notfound"></p>
     <h1 id="logo">Ride Share</h1>
 
@@ -107,7 +107,7 @@
     // makes post to Uber/Lyft Api 
     function post(route) {
       $.post("/api/price", route, function(data) {
-        console.log(data)
+        // console.log(data)
         if (data === 'not found' || data === null) {
           $('#notfound').text(' location or destination not found ');
           clear();
@@ -156,7 +156,7 @@
 
       $.post("/api/useraddress", route, function(data) {
         
-        console.log('In sql')
+        // console.log('In sql')
       });
     });
     
@@ -172,7 +172,7 @@
 
     // deletes item from database
     $("body").on("dblclick", "#oldesti", function() {
-      console.log('clicked')
+      // console.log('clicked')
       
       $(this).hide();
       var id = $(this).data("id");
@@ -181,7 +181,7 @@
         type: "DELETE"
       }).then(
         function() {
-          console.log("deleted address" + id);
+          // console.log("deleted address" + id);
         }
       );
     })

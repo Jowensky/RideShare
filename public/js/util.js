@@ -8,7 +8,7 @@ function handleLoginSugnup(form, url) {
     // When the form is submitted, we validate there's an email and password entered
     form.on("submit", function (event) {
         event.preventDefault();
-        console.log('clicked')
+        // console.log('clicked')
         $(".container").hide();
         var userData = {
             email: emailInput.val().trim(),

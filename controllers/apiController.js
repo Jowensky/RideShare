@@ -58,50 +58,50 @@ module.exports = function(app) {
     var address1 = req.body.from;
     var address2 = req.body.to;
     geocoder.geocode(address1, function(err, resp) {
-      console.log(resp);
+      // console.log(resp);
       try {
         if (resp[0].city === "") {
-          console.log("not found");
+          // console.log("not found");
           res.send("not found");
         } else {
-          console.log(resp);
+          // console.log(resp);
           trip.push({ lat: resp[0].latitude, long: resp[0].longitude });
         }
       } catch (err) {
-        console.log(err);
+        // console.log(err);
       }
       geocoder.geocode(address2, function(err, resp) {
-        console.log(resp);
+        // console.log(resp);
         try {
           if (resp[0].city === "") {
-            console.log("not found");
+            // console.log("not found");
             res.send("not found");
           } else {
-            console.log(resp);
+            // console.log(resp);
             trip.push({ lat: resp[0].latitude, long: resp[0].longitude });
-            console.log(trip);
+            // console.log(trip);
             ubest(trip[0].lat, trip[0].long, trip[1].lat, trip[1].long);
           }
         } catch (err) {
-          console.log(err);
+          // console.log(err);
         }
       });
     });
-
+    
     function ubest(slat, slong, elat, elong) {
       uber.estimates.getPriceForRouteAsync(slat, slong, elat, elong)
       .then(async function(response) {
-        console.log(response)
-        console.log(`Uber: ${response.prices[1].estimate}`);
+        // console.log(response)
+        // console.log(`Uber: ${response.prices[1].estimate}`);
         await route.push(response.prices[0].estimate);
         lfest(trip[0].lat, trip[0].long, trip[1].lat, trip[1].long);
       })
       .error(function(err) {
-        console.log(err.body.message);
+        // console.log(err.body.message);
         res.send(err.body.message);
       });
     }
-
+    
     function lfest(slat, slong, elat, elong) {
       var regularlyft = {
         start: {
@@ -116,22 +116,22 @@ module.exports = function(app) {
       };
       lyft.getRideEstimates(regularlyft).then(async respo => {
         try {
-          console.log(
-            `Lyft: $${move_decimal(
-              respo[0].estimatedCostCentsMin,
-              -2
-            )}-${move_decimal(respo[0].estimatedCostCentsMax, -2)}`
-          );
+          // console.log(
+          //   `Lyft: $${move_decimal(
+          //     respo[0].estimatedCostCentsMin,
+          //     -2
+          //   )}-${move_decimal(respo[0].estimatedCostCentsMax, -2)}`
+          // );
           await route.push(
             `$${move_decimal(
               respo[0].estimatedCostCentsMin,
               -2
             )}-${move_decimal(respo[0].estimatedCostCentsMax, -2)}`
           );
-          console.log(route);
+          // console.log(route);
           res.send(route);
         } catch (err) {
-          console.error(err);
+          // console.error(err);
           res.status(500);
         }
       });
@@ -143,7 +143,7 @@ module.exports = function(app) {
       var hbsObject = {
         address: data
       };
-      console.log(hbsObject);
+      // console.log(hbsObject);
       res.json(hbsObject);
     });
   });
@@ -153,7 +153,7 @@ module.exports = function(app) {
       ["Location", "Destination"],
       [req.body.location, req.body.destination],
       function(result) {
-        console.log(result);
+        // console.log(result);
       }
     );
   });
