@@ -16,27 +16,27 @@ var isAuthenticated = function (req, res, next){
 module.exports = function(app) {
 
 
-  app.get("/", function(req, res) {
+  // app.get("/", function(req, res) {
     
-    if (req.user) {
-      res.redirect("/members");
-    }
-    res.sendFile(path.join(__dirname, "../public/login.html"));
-  });
+  //   if (req.user) {
+  //     res.redirect("/members");
+  //   }
+  //   res.sendFile(path.join(__dirname, "../public/login.html"));
+  // });
 
   // after login in 
-  app.get("/members", isAuthenticated, function(req, res) {
+  app.get("/", isAuthenticated, function(req, res) {
     res.sendFile(path.join(__dirname, "../public/members.html"));
   });
   // after log in
 
 
-  app.get("/login", function(req, res) {
-    // If the user already has an account send them to the members page
-    if (req.user) {
-      res.redirect("/members");
-    }
-    res.sendFile(path.join(__dirname, "../public/login.html"));
-  });
+  // app.get("/login", function(req, res) {
+  //   // If the user already has an account send them to the members page
+  //   if (req.user) {
+  //     res.redirect("/members");
+  //   }
+  //   res.sendFile(path.join(__dirname, "../public/login.html"));
+  // });
 };
 
