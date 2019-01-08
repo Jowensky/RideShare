@@ -2,15 +2,15 @@ require("dotenv").config();
 var path = require("path");
 
 // Requiring our custom middleware for checking if a user is logged in
-var isAuthenticated = function (req, res, next){
+// var isAuthenticated = function (req, res, next){
   
-  if (req.user) {
-    return next();
-  }
+//   if (req.user) {
+//     return next();
+//   }
 
-  // If the user isn't logged in, redirect them to the login page
-  return res.redirect("/");
-}
+//   // If the user isn't logged in, redirect them to the login page
+//   return res.redirect("/");
+// }
 
 
 module.exports = function(app) {
