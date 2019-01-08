@@ -25,7 +25,11 @@ module.exports = function(app) {
   // });
 
   // after login in 
-  app.get("/", isAuthenticated, function(req, res) {
+  // app.get("/", isAuthenticated, function(req, res) {
+  //   res.sendFile(path.join(__dirname, "../public/members.html"));
+  // });
+
+    app.get("/", function(req, res) {
     res.sendFile(path.join(__dirname, "../public/members.html"));
   });
   // after log in
