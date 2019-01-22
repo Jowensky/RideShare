@@ -63,15 +63,15 @@
 
     <script>
 
-    // $(".right").on("click", function() {
-    //   $("#uberImage").toggle();
-    //   $("#uberContent").toggle();
-    // });
+    $(".right").on("click", function() {
+      $("#uberImage").toggle();
+      $("#uberContent").toggle();
+    });
     
-    // $(".left").on("click", function() {
-    //   $("#lyftImage").toggle();
-    //   $("#lyftContent").toggle();
-    // });
+    $(".left").on("click", function() {
+      $("#lyftImage").toggle();
+      $("#lyftContent").toggle();
+    });
 
     $("#previousSearch").on("click", function(e) {
       $(".addressBook h1").toggle();
@@ -99,13 +99,13 @@
        post(route);
     });
     function hideLogo() {
-      $("#lyftImage").hide();
+      
       $("#uberImage").hide();
     }
 
     function displayLogo() {
-      $("#lyftImage").toggle();
-      $("#uberImage").toggle();
+      $("#lyftImage").show();
+      $("#uberImage").show();
     };
     // empty lyft and uber div
     
@@ -133,6 +133,7 @@
           displayLogo();
         } else {
         hideLogo();
+        $(".addressbook").css("border-bottom", "rgb(217,4,114)");
         $("#uberprice").text(`Uber: ${data[0]}`);
         $("#lyftprice").text(`Lyft: ${data[1]}`);
         }
