@@ -63,15 +63,15 @@
 
     <script>
 
-    $(".right").on("click", function() {
-      $("#uberImage").toggle();
-      $("#uberContent").toggle();
-    });
+    // $(".right").on("click", function() {
+    //   $("#uberImage").toggle();
+    //   $("#uberContent").toggle();
+    // });
     
-    $(".left").on("click", function() {
-      $("#lyftImage").toggle();
-      $("#lyftContent").toggle();
-    });
+    // $(".left").on("click", function() {
+    //   $("#lyftImage").toggle();
+    //   $("#lyftContent").toggle();
+    // });
 
     $("#previousSearch").on("click", function(e) {
       $(".addressBook h1").toggle();
@@ -98,6 +98,15 @@
       }
        post(route);
     });
+    function hideLogo() {
+      $("#lyftImage").hide();
+      $("#uberImage").hide();
+    }
+
+    function displayLogo() {
+      $("#lyftImage").show();
+      $("#uberImage").show();
+    };
     // empty lyft and uber div
     
     function clear() {
@@ -117,10 +126,13 @@
         if (data === 'not found' || data === null) {
           $('#notfound').text(' location or destination not found ');
           clear();
+          displayLogo();
         } else if (data === 'Distance between two points exceeds 100 miles') {
           $('#notfound').text(data)
           clear();
+          displayLogo();
         } else {
+        hideLogo();
         $("#uberprice").text(`Uber: ${data[0]}`);
         $("#lyftprice").text(`Lyft: ${data[1]}`);
         }
