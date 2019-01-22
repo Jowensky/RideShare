@@ -73,6 +73,7 @@
       $("#lyftContent").toggle();
     });
 
+    // Saves searched routes
     $("#previousSearch").on("click", function(e) {
       $(".addressBook h1").toggle();
       $("#address").empty() 
@@ -98,24 +99,13 @@
       }
        post(route);
     });
-    
-    function hideLogo() {
-            
-      
-      $("#uberImage").hide();
-      // $("#uberPrice").show();
-    }
 
-    function displayLogo() {
-      $("#lyftImage").show();
-      $("#uberImage").show();
-    };
-    // empty lyft and uber div
-    
+    // empty lyft and uber price
     function clear() {
       $("#uberprice").html('');
       $("#lyftprice").html('');
     }
+
     // if no input is found, text will log to DOM    
     function noInput() {
       $("#notfound").text('Input must be filled') 
@@ -129,14 +119,10 @@
         if (data === 'not found' || data === null) {
           $('#notfound').text(' location or destination not found ');
           clear();
-          displayLogo();
         } else if (data === 'Distance between two points exceeds 100 miles') {
           $('#notfound').text(data)
           clear();
-          displayLogo();
         } else {
-        hideLogo();
-        $(".addressbook").css("border-bottom", "rgb(217,4,114)");
         $("#uberprice").text(`Uber: ${data[0]}`);
         $("#lyftprice").text(`Lyft: ${data[1]}`);
         }
@@ -176,12 +162,10 @@
           .trim()
       };
 
-      $.post("/api/useraddress", route, function(data) {
-        
-        
-      });
+      $.post("/api/useraddress", route, function(data) {});
     });
     
+    // saves previous searched routes
     $("body").on("click", "#oldesti", function() {
       var route = {
         from: $(this)
@@ -189,12 +173,12 @@
         to: $(this)
         .data("to")
       };
+
       post(route);
     })
 
     // deletes item from database
     $("body").on("dblclick", "#oldesti", function() {
-      // console.log('clicked')
       
       $(this).hide();
       var id = $(this).data("id");
@@ -202,11 +186,8 @@
       $.ajax("/api/useraddress/" + id, {
         type: "DELETE"
       }).then(
-        function() {
-          // console.log("deleted address" + id);
-        }
-      );
-    })
+        function() {});
+    });
 
   </script>
 </body>
