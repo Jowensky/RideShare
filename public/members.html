@@ -82,43 +82,44 @@
     // API Calls //
 
     // handles input values
-    $("body").on("click", "#serch", function() {
-
-      // clear();
-
-      if( $("#to").val() === "" || $("#from").val() === "") {
-        $("#notfound").text('Input must be filled') 
-      } else {
-        search();
-      }
-    }); 
-
-    function search() {
+    $("body").on("click", "#search", function(e) {
 
       var route = {
         from: $("#from").val().trim(),
         to:  $("#to").val().trim()
       };  
+      
+      $("#uberPrice").empty();
+      $("#lyftPrice").empty();
+      $("#notfound").empty();
 
-      post(route);
-    }
-
+      if (route.from === '' || route.to === '') {
+        noInput();
+      }
+       post(route);
+    });
+    
     function hideLogo() {
             
       
       $("#uberImage").hide();
-      $("#uberPrice").show();
+      // $("#uberPrice").show();
     }
 
     function displayLogo() {
       $("#lyftImage").show();
       $("#uberImage").show();
     };
-
+    // empty lyft and uber div
     
     function clear() {
       $("#uberprice").html('');
       $("#lyftprice").html('');
+    }
+    // if no input is found, text will log to DOM    
+    function noInput() {
+      $("#notfound").text('Input must be filled') 
+      clear()
     }
 
     // makes post to Uber/Lyft Api 
@@ -134,7 +135,7 @@
           clear();
           displayLogo();
         } else {
-        // hideLogo();
+        hideLogo();
         $(".addressbook").css("border-bottom", "rgb(217,4,114)");
         $("#uberprice").text(`Uber: ${data[0]}`);
         $("#lyftprice").text(`Lyft: ${data[1]}`);
@@ -175,7 +176,10 @@
           .trim()
       };
 
-      $.post("/api/useraddress", route, function() {});
+      $.post("/api/useraddress", route, function(data) {
+        
+        
+      });
     });
     
     $("body").on("click", "#oldesti", function() {
