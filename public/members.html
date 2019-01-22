@@ -17,14 +17,19 @@
   <body>
       
     <p style="color:white;font-size:28px;" id="notfound"></p>
-    <h1 id="logo">Ride Share</h1>
+    <h1 id="logo">.</h1>
 
     <div class="profileContainer">
       <input id="from" type="text" placeholder="From" /> <input id="to" type="text" placeholder="To"/> <br>
     </div>
     <p style="color:white;font-size:28px;" id="notfound"></p>
+
     <div id="buttons">
-    <button id="search">Search</button><br><button id="previousSearch">Previous</button><br><button id="save">Save</button>
+      <ul>
+        <li><button id="search">Search</button></li>
+        <li><button id="previousSearch">Previous</button></li>
+        <li><button id="save">Save</button></li>
+      </ul>
     </div>
 
     <div class="addressBook">
@@ -50,9 +55,10 @@
           <img id="uberImage" src="/stylesheets/images/p_uberlogo.png" height="200px;" width="200px;">
           <div style="display:none" id="uberContent">
             <p style="color:white;font-size: 25px;" id="uberprice"></p>
-          </div>   
-      </div>
-      
+         </div>   
+        </div>
+      </div>  
+
     </section>
 
     <script>
@@ -156,7 +162,7 @@
 
       $.post("/api/useraddress", route, function(data) {
         
-        // console.log('In sql')
+        
       });
     });
     
@@ -185,7 +191,6 @@
         }
       );
     })
-    // API Calls //
 
   </script>
 </body>
