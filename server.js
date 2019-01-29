@@ -1,8 +1,6 @@
 // NPM Package
 var express = require("express");
-var session = require("express-session");
 // Creating "express" server
-var passport = require("./config/passport");
 
 var app = express();
 
@@ -13,10 +11,6 @@ app.use(express.json());
 
 // the public folder is the where the stylesheet will be
 app.use(express.static("public"));
-
-app.use(session({ secret: "keyboard cat", resave: true, saveUninitialized: true }));
-app.use(passport.initialize());
-app.use(passport.session());
 
 require("./controllers/apiController")(app);
 require("./controllers/routeController")(app);

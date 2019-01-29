@@ -45,7 +45,6 @@ var orm = {
     queryString += printQuestionMarks(vals.length);
     queryString += ") ";
 
-    // console.log(queryString);
 
     connection.query(queryString, vals, function(err, result) {
       if (err) {
@@ -64,7 +63,6 @@ var orm = {
       if (err) {
         throw err;
       }
-      // console.log(result)
       cb(result);
     });
   },

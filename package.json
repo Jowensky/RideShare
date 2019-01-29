@@ -20,9 +20,6 @@
     "mysql": "^2.16.0",
     "node-geocoder": "^3.22.0",
     "node-uber": "^2.0.0",
-    "nodemon": "^1.18.9",
-    "passport": "^0.4.0",
-    "passport-local": "^1.0.0",
     "path": "^0.12.7"
   }
 }
