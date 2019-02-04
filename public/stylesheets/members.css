@@ -81,7 +81,6 @@ body {
     margin: 0 auto;
     border-top: 2px solid black;
     font-family: 'Major Mono Display';
-    margin-bottom: 20px;
 }
 .split {
     position: absolute;
@@ -97,11 +96,13 @@ body {
     position: absolute;
     left: 0;
     background-color: black;
+    margin-bottom: 100px;
 }
 .right {
     position: absolute;
     right: 0;
     background-color: black;
+    margin-bottom: 100px;
 }
 .centered {
     position: absolute;
@@ -110,11 +111,6 @@ body {
     transform: translate(-50%, -50%);
     text-align: center;
 }
-/* .compareContent
-
-#lyftImage, #uberImage {
-    margin-bottom: 100px;
-} */
 
 #notfound {
     position: fixed;
