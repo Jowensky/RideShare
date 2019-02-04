@@ -1,6 +1,8 @@
-# RideShare
+## A simple to use Ride Sharing comparison website.
+This app utilizes *Node Geocode* to plug in longitude & latitute to 
+*Lyft & Uber OAuth API's* 
 
-Uber & Lyft Ride Sharing Comparison APP
+![RideShare](/public/stylesheets/images/UI.png)
 
-Tech Stack: 
+### Tech Stack: 
 Node.js & Express, Mysql, Javascript
