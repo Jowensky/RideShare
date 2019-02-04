@@ -5,8 +5,8 @@ This app utilizes *Node Geocode* to plug in longitude & latitute to
 ![RideShare](/public/stylesheets/images/UI.png)
 
 * __Search__ : click logos to reveal price
-* __Save__ : place coordinates into MySQL
-* __Previous__ : display saved coordiantes 
+* __Save__ : place route into MySQL
+* __Previous__ : display saved route 
 
 ### Tech Stack: 
 Node.js & Express, Mysql, Javascript
