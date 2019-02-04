@@ -43,20 +43,15 @@
 
       <div class="split left">
         <div class="centered">
-          <div style="display:none;" id="lyftContent">
-            <p style="color:white;font-size: 25px;" id="lyftprice"></p>
-          </div>
+          <p style="color:white;font-size: 25px;display:none;" class="lyftContent" id="lyftprice"></p>
           <img id="lyftImage" src="/stylesheets/images/p_lyftlogo.png" height="200px;" width="200px;" />
         </div>
       </div>
       
       <div class="split right">
         <div class="centered">
-           <div style="display:none" id="uberContent">
-            <p style="color:white;font-size: 25px;" id="uberprice"></p>
-         </div>   
-          <img id="uberImage" src="/stylesheets/images/p_uberlogo.png" height="200px;" width="200px;" />
-         
+          <p style="color:white;font-size: 25px;display:none" class="uberContent" id="uberprice"></p>
+         <img id="uberImage" src="/stylesheets/images/p_uberlogo.png" height="200px;" width="200px;" />
         </div>
       </div>  
 
@@ -66,12 +61,12 @@
 
     $(".right").on("click", function() {
       $("#uberImage").toggle();
-      $("#uberContent").toggle();
+      $(".uberContent").toggle();
     });
     
     $(".left").on("click", function() {
       $("#lyftImage").toggle();
-      $("#lyftContent").toggle();
+      $(".lyftContent").toggle();
     });
 
     // Saves searched routes
