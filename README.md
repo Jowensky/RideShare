@@ -8,5 +8,13 @@ This app utilizes *Node Geocode* to plug in longitude & latitute to
 * __Save__ : place route into MySQL
 * __Previous__ : display saved route 
 
-### Tech Stack: 
-Node.js & Express, Mysql, Javascript
+## Build
+* Express.js
+* Node.js
+* MySQL Database
+* Uber OAuth API
+* Lyft API
+* Node-Geocoder library
+* Jquery API
+* MVC architectural pattern
+* CRUD Operation
