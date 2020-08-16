@@ -1,20 +1,20 @@
-## A simple to use Ride Sharing comparison website.
-This app utilizes *Node Geocode* to plug in longitude & latitute to 
-*Lyft & Uber OAuth API's* 
+# RideShare
+Uber and Lyft ride share comparison web app
 
 ![RideShare](/public/stylesheets/images/UI.png)
+
+# Getting Started
+Succeeding cloneing this repo, run yarn or npm install in your selected IDE then yarn start
 
 * __Search__ : click logos to reveal price
 * __Save__ : place route into MySQL
 * __Previous__ : display saved route 
 
-## Build
+# Built With
 * Express.js
-* Node.js
-* MySQL Database
+* MySQL 
+* React
+* Jquery 
 * Uber OAuth API
 * Lyft API
-* Node-Geocoder library
-* Jquery API
-* MVC architectural pattern
-* CRUD Operation
+* Node-Geocoder Library
