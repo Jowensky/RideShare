@@ -1,7 +1,7 @@
 # RideShare
 Uber and Lyft ride share comparison web app
 
-![RideShare](/public/stylesheets/images/UI.png)
+![RideShare UI](/public/stylesheets/images/UI.png)
 
 # Getting Started
 Succeeding cloneing this repo, run yarn or npm install in your selected IDE then yarn start
